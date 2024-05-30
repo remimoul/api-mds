@@ -2,26 +2,26 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3005;
 const cors = require('cors');
-const Sequelize = require('sequelize');
 require('dotenv').config();
+const sequelize = require('./database.js');
 
+// Importez les modèles
 require('./models/userModel');
-require('./models/companyModel');
-require('./models/foreignkeyModel');
 require('./models/userHapinessModel');
+require('./models/companyModel');
+require('./models/conversationModel');  
 require('./models/messagesModel');
-require('./models/conversationModel');   
+require('./models/foreignkeyModel');
 
-
-const sequelize = new Sequelize('grineasy', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-  });
-
-module.exports = sequelize;
   sequelize.authenticate()
-  .then(() => console.log('Connection has been established successfully.'))
-  .catch(error => console.error('Unable to connect to the database:', error));
+  .then(() => {
+    console.log('Connection has been established successfully.');
+    return sequelize.sync({ force: false});
+})
+.then(() => {
+    console.log('All models were synchronized successfully.');
+})
+.catch(error => console.error('Unable to connect to the database:', error));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
