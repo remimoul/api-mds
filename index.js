@@ -5,11 +5,17 @@ const cors = require('cors');
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
+require('./models/userModel');
+require('./models/companyModel');
+require('./models/foreignkeyModel');
+require('./models/userHapinessModel');
+require('./models/messagesModel');
+require('./models/conversationModel');   
 
 
-const sequelize = new Sequelize('grineasy', 'postgres', 'remi', {
+const sequelize = new Sequelize('grineasy', 'root', '', {
     host: 'localhost',
-    dialect: 'postgres'
+    dialect: 'mysql'
   });
 
 module.exports = sequelize;

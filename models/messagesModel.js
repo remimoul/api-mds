@@ -4,7 +4,7 @@ const sequelize = new Sequelize('grineasy', 'root', '', {
   dialect: 'mysql'
 });
 
-const Conversation = sequelize.define('Conversation', {
+const Messages = sequelize.define('Conversation', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -15,22 +15,26 @@ const Conversation = sequelize.define('Conversation', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  user_happiness_id: {
+  conversation_id: {
     type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  content: {
+    type: DataTypes.STRING(255),
     allowNull: false
   }
 }, {
   timestamps: true, 
-  tableName: 'conversations'
+  tableName: 'messages'
 });
 
 (async () => {
   try {
-      await Conversation.sync({ force: false });
-      console.log("Modèle Table Conversation synchronisé avec la base de données.");
+      await Messages.sync({ force: false });
+      console.log("Modèle Table Messages synchronisé avec la base de données.");
   } catch (error) {
-      console.error("Erreur lors de la synchronisation du modèle Table: Conversation", error);
+      console.error("Erreur lors de la synchronisation du modèle Table: Messages", error);
   }
 })();
 
-module.exports = Conversation;
+module.exports = Messages;

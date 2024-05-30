@@ -33,6 +33,11 @@ exports.userLogin = async (req, res) => {
 
 exports.createAUser = async (req, res) => {
   try {
+      // Vérifier si l'email existe déjà
+      let useruse = await User.findOne({ email: req.body.email });
+      if (useruse) {
+        return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
+      }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
       lastName: req.body.lastName,
