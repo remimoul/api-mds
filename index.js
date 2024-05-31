@@ -12,8 +12,6 @@ const sequelize = new Sequelize('grineasy', 'root', '', {
 
 // Importez les modèles
 require('./models/userModel');
-require('./models/userHapinessModel');
-require('./models/companyModel');
 require('./models/conversationModel');  
 require('./models/messagesModel');
 

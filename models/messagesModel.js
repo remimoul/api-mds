@@ -23,6 +23,7 @@ const Message = sequelize.define('Message', {
 
 const Conversation = require('./conversationModel');
 const User = require('./userModel');
+
 // Une conversation peut avoir plusieurs messages
 Conversation.hasMany(Message, {foreignKey: 'conversation_id'});
 Message.belongsTo(Conversation, {foreignKey: 'conversation_id'});

@@ -4,7 +4,7 @@ const sequelize = new Sequelize('grineasy', 'root', '', {
   dialect: 'mysql'
 });
 
-
+const User = require('./userModel.js');
 
 const Conversation = sequelize.define('Conversation', {
   id: {
@@ -18,11 +18,12 @@ const Conversation = sequelize.define('Conversation', {
   tableName: 'conversations'
 });
 
-const User = require('./userModel.js');
 
-// Un utilisateur peut avoir plusieurs conversations
+
+// // Un utilisateur peut avoir plusieurs conversations
 // User.hasMany(Conversation, {foreignKey: 'user_id'});
 // Conversation.belongsTo(User, {foreignKey: 'user_id'});
+
 
 (async () => {
   try {

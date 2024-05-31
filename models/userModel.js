@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('grineasy2', 'root', '', {
+const Conversation = require('./conversationModel');
+const sequelize = new Sequelize('grineasy', 'root', '', {
   host: 'localhost',
   dialect: 'mysql'
 });
@@ -32,6 +33,10 @@ const User = sequelize.define('User', {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    company_name: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
     role: {
       type: DataTypes.ENUM,
       values: ['Employé', 'Entreprise','Hapiness Officer'],
@@ -41,31 +46,13 @@ const User = sequelize.define('User', {
     tableName: 'users',
   });
 
-const Company = require('./companyModel');
-const UserHapiness = require('./userHapinessModel');
-const Conversation = require('./conversationModel');
 
-  // Une entreprise peut avoir plusieurs utilisateurs
-Company.hasMany(User, {foreignKey: 'company_id'});
-User.belongsTo(Company, {foreignKey: 'company_id'});
-
-
-// // Un UserHapiness peut avoir plusieurs utilisateurs
-UserHapiness.hasMany(User, {foreignKey: 'userhapiness_id'});
-User.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id'});
-
-
+// Un utilisateur peut avoir plusieurs conversations
 User.hasMany(Conversation, {foreignKey: 'user_id'});
 Conversation.belongsTo(User, {foreignKey: 'user_id'});
 
   (async () => {
     try {
-      await UserHapiness.sync({ force: false });
-      console.log("Modèle Table UserHapiness synchronisé avec la base de données.");
-
-      await Company.sync({ force: false });
-      console.log("Modèle Table Company synchronisé avec la base de données.");
-
       await User.sync({ force: false });
       console.log("Modèle Table Users synchronisé avec la base de données.");
 
