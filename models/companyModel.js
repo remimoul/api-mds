@@ -1,6 +1,11 @@
-const sequelize = require('../database.js');
+const UserHapiness = require('./userHapinessModel.js');
+
 const {Sequelize, DataTypes } = require('sequelize');
 
+const sequelize = new Sequelize('grineasy', 'root', '', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
 
 const Company = sequelize.define('Company', {
     id: {
@@ -24,6 +29,11 @@ const Company = sequelize.define('Company', {
     timestamps: true, 
     tableName: 'Company'
   });
+
+  // Un userhapiness peut avoir plusieurs entreprises
+UserHapiness.hasMany(Company, {foreignKey: 'userhapiness_id'});
+Company.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id'});
+
 
   (async () => {
     try {

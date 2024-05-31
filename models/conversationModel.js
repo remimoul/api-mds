@@ -1,5 +1,10 @@
-const sequelize = require('../database.js');
 const {Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('grineasy', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
+
+
 
 const Conversation = sequelize.define('Conversation', {
   id: {
@@ -7,25 +12,17 @@ const Conversation = sequelize.define('Conversation', {
     autoIncrement: true,
     primaryKey: true,
     allowNull: false
-  },
-  user_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'Users',
-      key: 'id'
-    }
-  },
-  user_happiness_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'UserHapiness',
-      key: 'id'
-    }
   }
 }, {
   timestamps: true, 
   tableName: 'conversations'
 });
+
+const User = require('./userModel.js');
+
+// Un utilisateur peut avoir plusieurs conversations
+// User.hasMany(Conversation, {foreignKey: 'user_id'});
+// Conversation.belongsTo(User, {foreignKey: 'user_id'});
 
 (async () => {
   try {

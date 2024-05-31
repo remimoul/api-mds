@@ -1,5 +1,10 @@
-const sequelize = require('../database.js');
 const {Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('grineasy', 'root', '', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+
+const Conversation = require('./conversationModel');
 
 const UserHapiness = sequelize.define('Userhapiness', {
     id: {
@@ -8,24 +13,29 @@ const UserHapiness = sequelize.define('Userhapiness', {
         primaryKey: true,
         allowNull: false
     },
-    user_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Users',
-            key: 'id'
-        }
-    },
-    company_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Company',
-            key: 'id'
-        }
-    },
+    // user_id: {
+    //     type: DataTypes.INTEGER,
+    //     references: {
+    //         model: 'User',
+    //         key: 'id'
+    //     }
+    // },
+    // company_id: {
+    //     type: DataTypes.INTEGER,
+    //     references: {
+    //         model: 'Company',
+    //         key: 'id'
+    //     }
+    // },
     }, {
     timestamps: true, 
     tableName: 'userhapiness'
     });
+
+
+    // Une conversation peut avoir un seul UserHapiness
+Conversation.hasOne(UserHapiness, {foreignKey: 'conversation_id'});
+UserHapiness.belongsTo(Conversation, {foreignKey: 'conversation_id'});
 
     (async () => {
         try {
