@@ -27,5 +27,13 @@ const Conversation = sequelize.define('Conversation', {
   tableName: 'conversations'
 });
 
+(async () => {
+  try {
+      await Conversation.sync({ force: false });
+      console.log("Modèle Table Conversation synchronisé avec la base de données.");
+  } catch (error) {
+      console.error("Erreur lors de la synchronisation du modèle Table: Conversation", error);
+  }
+})();
 
 module.exports = Conversation;

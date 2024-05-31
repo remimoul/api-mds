@@ -26,5 +26,14 @@ const UserHapiness = sequelize.define('Userhapiness', {
     timestamps: true, 
     tableName: 'userhapiness'
     });
+
+    (async () => {
+        try {
+            await UserHapiness.sync({ force: false });
+            console.log("Modèle Table UserHapiness synchronisé avec la base de données.");
+        } catch (error) {
+            console.error("Erreur lors de la synchronisation du modèle Table: UserHapiness", error);
+        }
+      })();
       
       module.exports = UserHapiness;

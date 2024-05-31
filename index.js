@@ -13,14 +13,18 @@ require('./models/conversationModel');
 require('./models/messagesModel');
 require('./models/foreignkeyModel');
 
-  sequelize.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-    return sequelize.sync({ force: false});
-})
-.then(() => {
-    console.log('All models were synchronized successfully.');
-})
+//   sequelize.authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//     return sequelize.sync({ force: false});
+// })
+// .then(() => {
+//     console.log('All models were synchronized successfully.');
+// })
+// .catch(error => console.error('Unable to connect to the database:', error));
+
+sequelize.authenticate()
+.then(() => console.log('Connection has been established successfully.'))
 .catch(error => console.error('Unable to connect to the database:', error));
 
 app.use(express.urlencoded({ extended: true }));

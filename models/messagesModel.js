@@ -31,4 +31,13 @@ const Messages = sequelize.define('Conversation', {
   tableName: 'messages'
 });
 
+(async () => {
+  try {
+      await Messages.sync({ force: false });
+      console.log("Modèle Table Message synchronisé avec la base de données.");
+  } catch (error) {
+      console.error("Erreur lors de la synchronisation du modèle Table: message", error);
+  }
+})();
+
 module.exports = Messages;

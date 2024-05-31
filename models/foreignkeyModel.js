@@ -27,3 +27,7 @@ User.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id', as: 'company_userha
 // Un utilisateur peut avoir plusieurs conversations
 User.hasMany(Conversation, {foreignKey: 'user_id', as: 'conversations'});
 Conversation.belongsTo(User, {foreignKey: 'user_id', as: 'user'});
+
+// Un userhapiness peut avoir plusieurs entreprises
+UserHapiness.hasMany(Company, {foreignKey: 'userhapiness_id', as: 'many_officer_company'});
+Company.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id', as: 'many_officer_company'});

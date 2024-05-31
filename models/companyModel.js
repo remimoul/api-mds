@@ -25,5 +25,14 @@ const Company = sequelize.define('Company', {
     tableName: 'Company'
   });
 
+  (async () => {
+    try {
+        await Company.sync({ force: false });
+        console.log("Modèle Table Company synchronisé avec la base de données.");
+    } catch (error) {
+        console.error("Erreur lors de la synchronisation du modèle Table: Company", error);
+    }
+  })();
+
 
   module.exports = Company;  
