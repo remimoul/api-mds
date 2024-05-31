@@ -13,20 +13,6 @@ const UserHapiness = sequelize.define('Userhapiness', {
         primaryKey: true,
         allowNull: false
     },
-    // user_id: {
-    //     type: DataTypes.INTEGER,
-    //     references: {
-    //         model: 'User',
-    //         key: 'id'
-    //     }
-    // },
-    // company_id: {
-    //     type: DataTypes.INTEGER,
-    //     references: {
-    //         model: 'Company',
-    //         key: 'id'
-    //     }
-    // },
     }, {
     timestamps: true, 
     tableName: 'userhapiness'

@@ -5,10 +5,10 @@ const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize('grineasy', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql'
-});
+// const sequelize = new Sequelize('grineasy', 'root', '', {
+//   host: 'localhost',
+//   dialect: 'mysql'
+// });
 
 // Importez les modèles
 require('./models/userModel');
@@ -27,9 +27,9 @@ require('./models/messagesModel');
 // })
 // .catch(error => console.error('Unable to connect to the database:', error));
 
-sequelize.authenticate()
-.then(() => console.log('Connection has been established successfully.'))
-.catch(error => console.error('Unable to connect to the database:', error));
+// sequelize.authenticate()
+// .then(() => console.log('Connection has been established successfully.'))
+// .catch(error => console.error('Unable to connect to the database:', error));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

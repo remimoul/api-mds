@@ -42,7 +42,7 @@ exports.createAUser = async (req, res) => {
     const newUser = new User({
       lastName: req.body.lastName,
       firstName: req.body.firstName,
-      company_id: req.body.company_id,
+
       email: req.body.email,
       password: hashedPassword,
       admin: req.body.admin,

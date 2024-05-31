@@ -18,6 +18,14 @@ module.exports = {
         },
         allowNull: false
       },
+      userhapiness_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'userhapiness',
+          key: 'id'
+        },
+        allowNull: false
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

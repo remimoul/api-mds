@@ -34,22 +34,6 @@ module.exports = {
       role: {
         type: Sequelize.ENUM('Employé', 'Entreprise','Hapiness Officer'),
       },
-      company_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'companies',
-          key: 'id'
-        },
-        allowNull: true
-      },
-      userhapiness_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'userhapiness',
-          key: 'id'
-        },
-        allowNull: true
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false
