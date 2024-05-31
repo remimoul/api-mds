@@ -1,12 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
-// const sequelize = new Sequelize('grineasy2', 'root', '', {
-//   host: 'localhost',
-//   dialect: 'mysql'
-// });
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize('grineasy2', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
 const User = sequelize.define('User', {
     id: {
@@ -45,37 +41,37 @@ const User = sequelize.define('User', {
     tableName: 'users',
   });
 
-// const Company = require('./companyModel');
-// const UserHapiness = require('./userHapinessModel');
-// const Conversation = require('./conversationModel');
+const Company = require('./companyModel');
+const UserHapiness = require('./userHapinessModel');
+const Conversation = require('./conversationModel');
 
-//   // Une entreprise peut avoir plusieurs utilisateurs
-// Company.hasMany(User, {foreignKey: 'company_id'});
-// User.belongsTo(Company, {foreignKey: 'company_id'});
-
-
-// // // Un UserHapiness peut avoir plusieurs utilisateurs
-// UserHapiness.hasMany(User, {foreignKey: 'userhapiness_id'});
-// User.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id'});
+  // Une entreprise peut avoir plusieurs utilisateurs
+Company.hasMany(User, {foreignKey: 'company_id'});
+User.belongsTo(Company, {foreignKey: 'company_id'});
 
 
-// User.hasMany(Conversation, {foreignKey: 'user_id'});
-// Conversation.belongsTo(User, {foreignKey: 'user_id'});
+// // Un UserHapiness peut avoir plusieurs utilisateurs
+UserHapiness.hasMany(User, {foreignKey: 'userhapiness_id'});
+User.belongsTo(UserHapiness, {foreignKey: 'userhapiness_id'});
 
-//   (async () => {
-//     try {
-//       await UserHapiness.sync({ force: false });
-//       console.log("Modèle Table UserHapiness synchronisé avec la base de données.");
 
-//       await Company.sync({ force: false });
-//       console.log("Modèle Table Company synchronisé avec la base de données.");
+User.hasMany(Conversation, {foreignKey: 'user_id'});
+Conversation.belongsTo(User, {foreignKey: 'user_id'});
 
-//       await User.sync({ force: false });
-//       console.log("Modèle Table Users synchronisé avec la base de données.");
+  (async () => {
+    try {
+      await UserHapiness.sync({ force: false });
+      console.log("Modèle Table UserHapiness synchronisé avec la base de données.");
 
-//     } catch (error) {
-//         console.error("Erreur lors de la synchronisation du modèle Table: Users", error);
-//     }
-//   })();
+      await Company.sync({ force: false });
+      console.log("Modèle Table Company synchronisé avec la base de données.");
+
+      await User.sync({ force: false });
+      console.log("Modèle Table Users synchronisé avec la base de données.");
+
+    } catch (error) {
+        console.error("Erreur lors de la synchronisation du modèle Table: Users", error);
+    }
+  })();
 
   module.exports = User;  
