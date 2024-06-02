@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 require('dotenv').config();
 
-
-
 exports.userLogin = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -21,7 +19,7 @@ exports.userLogin = async (req, res) => {
     };
 
     const token = jwt.sign(userData, process.env.JWT_KEY, {
-      expiresIn: '1h',
+      expiresIn: '24h',
     });
 
     res.status(200).json({ token });
@@ -33,16 +31,15 @@ exports.userLogin = async (req, res) => {
 
 exports.createAUser = async (req, res) => {
   try {
-      // Vérifier si l'email existe déjà
-      let useruse = await User.findOne({ email: req.body.email });
-      if (useruse) {
-        return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
-      }
+    // Vérifier si l'email existe déjà
+    let useruse = await User.findOne({ where: { email: req.body.email } });
+    if (useruse) {
+      return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
       lastName: req.body.lastName,
       firstName: req.body.firstName,
-
       email: req.body.email,
       password: hashedPassword,
       admin: req.body.admin,
