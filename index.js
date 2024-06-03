@@ -14,7 +14,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, proce
 require('./models/userModel');
 require('./models/conversationModel');
 require('./models/messagesModel');
-require('./models/associations');
+// require('./models/associations');
 require('./models/userConversationModel');
 
 sequelize

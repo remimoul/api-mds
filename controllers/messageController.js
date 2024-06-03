@@ -4,6 +4,7 @@ const serverClient = StreamChat.getInstance(process.env.STREAM_CHAT_API_KEY, pro
 const Sequelize = require('sequelize');
 const Message = require('../models/messagesModel');
 const userConversation = require('../models/userConversationModel');
+const Conversation = require('../models/conversationModel');
 
 async function saveMessage(message) {
   await Message.create(message);
@@ -42,11 +43,10 @@ exports.sendMessage = async (req, res) => {
 
 exports.getConversation = async (req, res) => {
   try {
-        // Validation de conversation_id
-        if (!req.params.conversation_id) {
-          return res.status(400).json({ error: 'conversation_id is required' });
-        }
-
+    // Validation de conversation_id
+    if (!req.params.conversation_id) {
+      return res.status(400).json({ error: 'conversation_id is required' });
+    }
     // Récupérer tous les messages pour cette conversation
     const messages = await Message.findAll({
       where: { conversation_id: req.params.conversation_id },
@@ -58,7 +58,7 @@ exports.getConversation = async (req, res) => {
       return res.status(404).json({ error: 'No messages found for this conversation' });
     }
 
-    const messageContents = messages.map(message => message.content);
+    const messageContents = messages.map((message) => message.content);
 
     res.status(200).json({ messageContents });
   } catch (error) {
@@ -71,6 +71,22 @@ exports.getConversation = async (req, res) => {
       errorMessage = 'Error getting conversation';
     }
     res.status(500).json({ error: errorMessage });
-  
+  }
+};
+
+exports.createConversation = async (req, res) => {
+  try {
+    // Vérification du rôle de l'utilisateur
+    if (req.user.role !== 'Happiness Officer') {
+      return res.status(403).json({ error: 'Seulement un Happiness Officer peut créer une conversation' });
+    }
+    // Création de la conversation avec l'ID de l'Happiness Officer
+    const conversation = await Conversation.create({
+      id: req.user.id,
+    });
+    res.status(200).json({ message: 'Conversation crée avec succès', conversation });
+  } catch (error) {
+    console.error('Error creating conversation', error);
+    res.status(500).json({ error: 'Error creating conversation' });
   }
 };

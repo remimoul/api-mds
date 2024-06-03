@@ -21,12 +21,12 @@ const UserConversation = sequelize.define(
 
 User.belongsToMany(Conversation, { through: UserConversation, foreignKey: 'user_id' });
 Conversation.belongsToMany(User, { through: UserConversation, foreignKey: 'conversation_id' });
-Message.belongsTo(User);
-Message.belongsTo(Conversation);
+// Message.belongsTo(User);
+// Message.belongsTo(Conversation);
 
 (async () => {
   try {
-    await UserConversation.sync({ force: false });
+    await UserConversation.sync({ force: true });
     console.log('Modèle Table UserConversation synchronisé avec la base de données.');
   } catch (error) {
     console.error('Erreur lors de la synchronisation du modèle Table: UserConversation', error);
