@@ -16,7 +16,7 @@ exports.sendMessage = async (req, res) => {
   // Vérifiez que la conversation existe
   const conversation = await userConversation.findOne({ where: { id: conversation_id } });
   if (!conversation) {
-    return res.status(404).json({ error: 'Conversation not found' });
+    return res.status(404).json({ error: 'Conversation non trouvé' });
   }
 
   try {
@@ -34,10 +34,10 @@ exports.sendMessage = async (req, res) => {
       created_at: message.created_at,
     });
 
-    res.status(200).json({ message: 'Message sent successfully' });
+    res.status(200).json({ message: 'Message envoyé avec succès' });
   } catch (error) {
-    console.error('Error sending message', error);
-    res.status(500).json({ error: 'Error sending message' });
+    console.error('Erreur envoi message', error);
+    res.status(500).json({ error: 'Erreur envoi message' });
   }
 };
 
@@ -55,7 +55,7 @@ exports.getConversation = async (req, res) => {
     });
 
     if (messages.length === 0) {
-      return res.status(404).json({ error: 'No messages found for this conversation' });
+      return res.status(404).json({ error: 'Aucun message trouver pour cette conversation' });
     }
 
     const messageContents = messages.map((message) => message.content);
@@ -66,9 +66,9 @@ exports.getConversation = async (req, res) => {
     let errorMessage;
     if (error instanceof Sequelize.ValidationError) {
       // Gestion spécifique des erreurs Sequelize
-      errorMessage = 'Database error';
+      errorMessage = 'Erreur de validation Sequelize';
     } else {
-      errorMessage = 'Error getting conversation';
+      errorMessage = 'Erreur de récupération de la conversation';
     }
     res.status(500).json({ error: errorMessage });
   }
@@ -86,7 +86,7 @@ exports.createConversation = async (req, res) => {
     });
     res.status(200).json({ message: 'Conversation crée avec succès', conversation });
   } catch (error) {
-    console.error('Error creating conversation', error);
-    res.status(500).json({ error: 'Error creating conversation' });
+    console.error('Erreur de création de la conversation', error);
+    res.status(500).json({ error: 'Erreur de création de la conversation' });
   }
 };
