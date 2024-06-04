@@ -14,8 +14,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, proce
 require('./models/userModel');
 require('./models/conversationModel');
 require('./models/messagesModel');
-// require('./models/associations');
 require('./models/userConversationModel');
+require('./models/journalModel');
 
 sequelize
   .authenticate()
@@ -30,6 +30,8 @@ const userRoute = require('./routes/userRoute');
 app.use('/user', userRoute);
 const messageRoute = require('./routes/messageRoute');
 app.use('/message', messageRoute);
+const journalRoute = require('./routes/journalRoute');
+app.use('/journal', journalRoute);
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
