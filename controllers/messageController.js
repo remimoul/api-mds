@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 const Message = require('../models/messagesModel');
 const userConversation = require('../models/userConversationModel');
 const Conversation = require('../models/conversationModel');
+const User = require('../models/userConversationModel');
 
 async function saveMessage(message) {
   await Message.create(message);
@@ -20,7 +21,7 @@ exports.sendMessage = async (req, res) => {
   }
 
   try {
-    const user = { id: user_id };
+    const user = {  id: user_id };
     const channel = serverClient.channel('messaging', conversation_id, { created_by: user, members: [user_id] });
 
     await channel.watch();
@@ -88,5 +89,45 @@ exports.createConversation = async (req, res) => {
   } catch (error) {
     console.error('Erreur de création de la conversation', error);
     res.status(500).json({ error: 'Erreur de création de la conversation' });
+  }
+};
+
+exports.deleteConversation = async (req, res) => {
+  try {
+      // Vérification du rôle de l'utilisateur
+      if (req.user.role !== 'Happiness Officer') {
+        return res.status(403).json({ error: 'Seulement un Happiness Officer peut supprimer une conversation' });
+      }
+
+    // Récupération de l'ID de la conversation à partir de la requête
+    const { conversation_id } = req.params;
+
+    // Récupération de la conversation
+    const conversation = await Conversation.findOne({ where: { id: req.conversation.id } });
+    const user = await User.findOne({ where: { id: req.user.id } });
+    console.log('conversation',conversation)
+    console.log("utilisateur qui envoi la requete",user.id);
+    console.log('id de conversation',conversation_id)
+
+       // Vérification que l'utilisateur est l'Happiness Officer associé à la conversation
+       if (conversation.id !== user.id) {
+        return res.status(403).json({ error: 'Seulement l\'Happiness Officer associé à la conversation peut la supprimer' });
+      }
+
+    // Suppression de la conversation
+    const result = await Conversation.destroy({
+      where: { id: conversation_id }
+    });
+
+    // Si aucune conversation n'a été supprimée, renvoyer une erreur
+    if (!result) {
+      return res.status(404).json({ error: 'Conversation non trouvée' });
+    }
+    
+    // Si la suppression a réussi, renvoyer un message de succès
+    res.status(200).json({ message: 'Conversation supprimée avec succès' });
+  } catch (error) {
+    console.error('Erreur de suppression de la conversation', error);
+    res.status(500).json({ error: 'Erreur de suppression de la conversation' });
   }
 };
