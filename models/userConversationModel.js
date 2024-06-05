@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize,DataTypes } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
@@ -12,7 +12,14 @@ const Message = require('./messagesModel');
 
 const UserConversation = sequelize.define(
   'UserConversation',
-  {},
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+  },
   {
     timestamps: true,
     tableName: 'userconversations',
@@ -33,4 +40,4 @@ Conversation.belongsToMany(User, { through: UserConversation, foreignKey: 'conve
   }
 })();
 
-module.exports = User;
+module.exports = UserConversation;
