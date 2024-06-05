@@ -15,7 +15,7 @@ exports.sendMessage = async (req, res) => {
   const { content, user_id, conversation_id } = req.body;
 
   // Vérifiez que la conversation existe
-  const conversation = await userConversation.findOne({ where: { id: conversation_id } });
+  const conversation = await Conversation.findOne({ where: { id: conversation_id } });
   if (!conversation) {
     return res.status(404).json({ error: 'Conversation non trouvé' });
   }
