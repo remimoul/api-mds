@@ -1,75 +1,63 @@
+require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('grineasy', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql'
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
 });
-const bcrypt = require('bcrypt');
 
-
-const Users = sequelize.define('Users', {
+const User = sequelize.define(
+  'User',
+  {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
     },
     firstName: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: true,
     },
     lastName: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(254),
       allowNull: false,
-      unique: true
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     admin: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+    },
+    company_name: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
     },
     role: {
       type: DataTypes.ENUM,
-      values: ['Employé', 'Entreprise','Hapiness Officer'],
+      values: ['Employé', 'Entreprise', 'Happiness Officer'],
     },
-    message_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Messages',
-        key: 'id'
-      },
-      conversation_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Conversation',
-          key: 'id'
-        }
-      },
-    },
-  }, {
-    timestamps: true, 
+  },
+  {
+    timestamps: true,
     tableName: 'users',
-    underscored: true
-  });
+  },
+);
 
-  
 (async () => {
   try {
-      await Users.sync({ force: false });
-      console.log("Modèle Table Users synchronisé avec la base de données.");
+    await User.sync({ force: false });
+    console.log('Modèle Table Users synchronisé avec la base de données.');
   } catch (error) {
-      console.error("Erreur lors de la synchronisation du modèle Table: Users", error);
+    console.error('Erreur lors de la synchronisation du modèle Table: Users', error);
   }
 })();
 
-Users.prototype.validatePassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
-
-  module.exports = Users;  
+module.exports = User;
