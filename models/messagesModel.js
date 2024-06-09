@@ -31,7 +31,7 @@ const Message = sequelize.define(
 
 Message.belongsTo(User, { foreignKey: 'user_id' });
 // avec onDelete: 'CASCADE', si une conversation est supprimé, tous les messages associés seront également supprimés
-Message.belongsTo(Conversation, { foreignKey: 'conversation_id', onDelete: 'CASCADE'});
+Message.belongsTo(Conversation, { foreignKey: 'conversation_id', onDelete: 'CASCADE' });
 
 (async () => {
   try {
