@@ -4,6 +4,23 @@ const port = process.env.PORT || 3005;
 const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'API GrinEasy',
+      description: "Cette API permet de gérer les utilisateurs, les conversations et les messages de l'application GrinEasy",
+      contact: {
+        name: 'Rémi',
+      },
+      // servers: [process.env.HEROKU_URL],
+      servers: ['http://localhost:3005'],
+    },
+  },
+  apis: ['./api-docs/swagger.js'],
+};
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
@@ -32,6 +49,9 @@ const messageRoute = require('./routes/messageRoute');
 app.use('/message', messageRoute);
 const journalRoute = require('./routes/journalRoute');
 app.use('/journal', journalRoute);
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);

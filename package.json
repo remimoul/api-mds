@@ -23,7 +23,7 @@
     "sequelize-cli": "^6.6.2",
     "stream-chat": "^8.33.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0",
+    "swagger-ui-express": "^5.0.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
