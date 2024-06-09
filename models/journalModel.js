@@ -11,24 +11,24 @@ const Journal = sequelize.define(
   'Journal',
   {
     id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-      emotion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      thoughts: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    emotion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    thoughts: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,
@@ -36,8 +36,8 @@ const Journal = sequelize.define(
   },
 );
 
-User.hasMany(Journal, {foreignKey: 'user_id'});
-Journal.belongsTo(User, {foreignKey: 'user_id'});
+User.hasMany(Journal, { foreignKey: 'user_id' });
+Journal.belongsTo(User, { foreignKey: 'user_id' });
 
 (async () => {
   try {
