@@ -16,7 +16,6 @@ const swaggerOptions = {
         name: 'Rémi',
       },
       servers: [process.env.HEROKU_URL],
-      // servers: ['http://localhost:3005'],
     },
   },
   apis: ['./api-docs/swagger.js'],
