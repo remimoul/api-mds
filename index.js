@@ -1,16 +1,12 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3005;
 const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
-console.log("DB Host:", process.env.DB_HOST);
-console.log("DB Name:", process.env.DB_NAME);
-console.log("DB Login:", process.env.DB_LOGIN);
-console.log("DB Password:", process.env.DB_PASSWORD);
 
 const swaggerOptions = {
   swaggerDefinition: {
