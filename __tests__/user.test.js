@@ -31,7 +31,7 @@ afterAll(async () => {
 });
 
 //test de la route POST /user/register
-test('ROUTE = USER/REGISTER 😁​​', async () => {
+test('USER/REGISTER 😁​​', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -57,7 +57,7 @@ test('ROUTE = USER/REGISTER 😁​​', async () => {
   expect(res.body).toHaveProperty('role', 'Employé');
 });
 
-test('ROUTE = USER/LOGIN 😁​​', async () => {
+test('USER/LOGIN 😁​​', async () => {
     let res;
     try {
         res = await request(server).post('/user/login').send({
@@ -73,7 +73,7 @@ test('ROUTE = USER/LOGIN 😁​​', async () => {
 }
 );
 
-test('ROUTE = USER/UPDATE 😁​​', async () => {
+test('USER/UPDATE 😁​​', async () => {
     let res;
     try {
         res = await request(server).post('/user/login').send({
