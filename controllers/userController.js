@@ -47,6 +47,7 @@ exports.createAUser = async (req, res) => {
       password: hashedPassword,
       admin: req.body.admin,
       role: req.body.role,
+      company_name: req.body.company_name,
     });
     let user = await newUser.save();
     res.status(201).json(user);

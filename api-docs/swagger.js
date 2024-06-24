@@ -117,7 +117,6 @@
  *         description: A successful response
  */
 
-
 /**
  * @swagger
  * /message/send:
@@ -373,5 +372,3 @@
  *               name:
  *                 type: string
  */
-
-

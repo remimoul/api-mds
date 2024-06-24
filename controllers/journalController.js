@@ -19,7 +19,7 @@ exports.getEmotion = async (req, res) => {
   try {
     const { user_id } = req.params;
     const emotions = await Journal.findAll({ where: { user_id } });
-    if (emotions.lenght === 0) {
+    if (emotions.length === 0) {
       return res.status(404).json({ message: 'Aucune émotion trouvée pour cet utilisateur' });
     }
     res.status(200).json(emotions);

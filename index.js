@@ -53,6 +53,8 @@ app.use('/journal', journalRoute);
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
+
+module.exports = server;
