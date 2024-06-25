@@ -7,7 +7,7 @@ require('dotenv').config();
 exports.userLogin = async (req, res) => {
   try {
     if (!validator.isEmail(req.body.email)) {
-      return res.status(400).json({ message: 'Format d\'email invalide' });
+      return res.status(400).json({ message: "Format d'email invalide" });
     }
     const user = await User.findOne({ where: { email: req.body.email } });
 
@@ -36,9 +36,8 @@ exports.userLogin = async (req, res) => {
 
 exports.createAUser = async (req, res) => {
   try {
-
     if (!validator.isEmail(req.body.email)) {
-      return res.status(400).json({ message: 'Format d\'email invalide' });
+      return res.status(400).json({ message: "Format d'email invalide" });
     }
     // Vérifier si l'email existe déjà
     let useruse = await User.findOne({ where: { email: req.body.email } });
@@ -46,11 +45,10 @@ exports.createAUser = async (req, res) => {
       return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
     }
 
-       // Vérifier la longueur du mot de passe
-       if (req.body.password.length < 8) {
-        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères' });
-      }
-
+    // Vérifier la longueur du mot de passe
+    if (req.body.password.length < 8) {
+      return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères' });
+    }
 
     if (!req.body.email || !req.body.password) {
       return res.status(400).json({ message: 'Email et mot de passe requis' });

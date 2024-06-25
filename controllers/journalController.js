@@ -1,7 +1,6 @@
 const Journal = require('../models/journalModel');
 const { Op } = require('sequelize');
 
-
 exports.sendEmotion = async (req, res) => {
   try {
     const { user_id, emotion, thoughts } = req.body;
@@ -28,10 +27,10 @@ exports.getEmotion = async (req, res) => {
       const startDate = new Date(date);
       startDate.setHours(0, 0, 0, 0); // Début de la journée
 
-         // Créez endDate en ajoutant un jour à startDate, puis soustrayez une milliseconde
-         const endDate = new Date(startDate);
-         endDate.setDate(startDate.getDate() + 1);
-         endDate.setMilliseconds(endDate.getMilliseconds() - 1); // Fin de la journée
+      // Créez endDate en ajoutant un jour à startDate, puis soustrayez une milliseconde
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 1);
+      endDate.setMilliseconds(endDate.getMilliseconds() - 1); // Fin de la journée
 
       console.log(`startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
 
