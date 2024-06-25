@@ -6,7 +6,6 @@ require('dotenv').config();
 
 exports.userLogin = async (req, res) => {
   try {
-    //const user = await User.findOne({ email: req.body.email });
     const user = await User.findOne({ where: { email: req.body.email } });
 
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
@@ -14,7 +13,7 @@ exports.userLogin = async (req, res) => {
       return;
     }
 
-    console.log('user', user);
+    //console.log('user', user);
 
     const userData = {
       id: user.id,
@@ -25,7 +24,7 @@ exports.userLogin = async (req, res) => {
       expiresIn: '24h',
     });
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, id: user.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Une erreur s'est produite lors de la connexion" });
@@ -39,6 +38,19 @@ exports.createAUser = async (req, res) => {
     if (useruse) {
       return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
     }
+
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).json({ message: 'Email et mot de passe requis' });
+    }
+
+    if (!validator.isEmail(req.body.email)) {
+      return res.status(400).json({ message: 'Adresse email invalide' });
+    }
+
+    if (req.body.password.length < 6) {
+      return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères' });
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
       lastName: req.body.lastName,
@@ -47,6 +59,7 @@ exports.createAUser = async (req, res) => {
       password: hashedPassword,
       admin: req.body.admin,
       role: req.body.role,
+      company_name: req.body.company_name,
     });
     let user = await newUser.save();
     res.status(201).json(user);
@@ -58,6 +71,12 @@ exports.createAUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    // Check if user exists
+    const existingUser = await User.findOne({ where: { id: req.params.id } });
+    if (!existingUser) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
+    }
+
     const updates = {};
     //Si l'email est renseigné, on vérifie qu'il est valide
     if (req.body.email) {
@@ -90,8 +109,7 @@ exports.updateUser = async (req, res) => {
       return res.status(200).json({ message: `Utilisateur modifié : ${user[1].email}` });
     }
   } catch (error) {
-    console.log(error);
-    return res.status(500).res.json({ message: 'Erreur serveur' });
+    return res.status(500).json({ message: 'Erreur serveur: ' + error });
   }
 };
 

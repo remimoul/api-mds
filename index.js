@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3006;
 const cors = require('cors');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
@@ -15,8 +15,8 @@ const swaggerOptions = {
       contact: {
         name: 'Rémi',
       },
-      // servers: [process.env.HEROKU_URL],
-      servers: ['http://localhost:3005'],
+      //servers: [process.env.HEROKU_URL],
+       servers: ['http://localhost:3005'],
     },
   },
   apis: ['./api-docs/swagger.js'],
@@ -53,6 +53,8 @@ app.use('/journal', journalRoute);
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
+
+module.exports = server;

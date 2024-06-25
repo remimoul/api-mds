@@ -8,7 +8,8 @@ exports.sendEmotion = async (req, res) => {
       emotion,
       thoughts,
     });
-    res.status(201).json(newEmotion);
+
+    res.status(201).json({ data: newEmotion, message: 'Emotion envoyée avec succès' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Une erreur s'est produite lors de l'envoi de l'émotion" });
@@ -19,10 +20,10 @@ exports.getEmotion = async (req, res) => {
   try {
     const { user_id } = req.params;
     const emotions = await Journal.findAll({ where: { user_id } });
-    if (emotions.lenght === 0) {
+    if (emotions.length === 0) {
       return res.status(404).json({ message: 'Aucune émotion trouvée pour cet utilisateur' });
     }
-    res.status(200).json(emotions);
+    res.status(201).json({ data: emotions, message: 'Emotions récupérées avec succès' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Une erreur s'est produite lors de la récupération des émotions" });
