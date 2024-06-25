@@ -6,6 +6,9 @@ require('dotenv').config();
 
 exports.userLogin = async (req, res) => {
   try {
+    if (!validator.isEmail(req.body.email)) {
+      return res.status(400).json({ message: 'Format d\'email invalide' });
+    }
     const user = await User.findOne({ where: { email: req.body.email } });
 
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
@@ -33,11 +36,21 @@ exports.userLogin = async (req, res) => {
 
 exports.createAUser = async (req, res) => {
   try {
+
+    if (!validator.isEmail(req.body.email)) {
+      return res.status(400).json({ message: 'Format d\'email invalide' });
+    }
     // Vérifier si l'email existe déjà
     let useruse = await User.findOne({ where: { email: req.body.email } });
     if (useruse) {
       return res.status(400).json({ message: 'Un utilisateur avec cette adresse e-mail existe déjà' });
     }
+
+       // Vérifier la longueur du mot de passe
+       if (req.body.password.length < 8) {
+        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères' });
+      }
+
 
     if (!req.body.email || !req.body.password) {
       return res.status(400).json({ message: 'Email et mot de passe requis' });
@@ -45,10 +58,6 @@ exports.createAUser = async (req, res) => {
 
     if (!validator.isEmail(req.body.email)) {
       return res.status(400).json({ message: 'Adresse email invalide' });
-    }
-
-    if (req.body.password.length < 6) {
-      return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères' });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
