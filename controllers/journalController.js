@@ -22,7 +22,7 @@ exports.getEmotion = async (req, res) => {
   try {
     const { user_id } = req.params;
     const { date } = req.query; // Récupérer la date depuis les paramètres de requête
-    let whereCondition = { user_id,date };
+    let whereCondition = { user_id };
 
     if (date) {
       const startDate = new Date(date);

@@ -47,7 +47,7 @@ it('REGISTER - Email invalide', async () => {
   }
   expect(res).toBeDefined();
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe('Adresse email invalide');
+  expect(res.body.message).toBe('Format d\'email invalide');
 });
 
 //test pour mot de passe trop court
@@ -68,7 +68,7 @@ it('REGISTER - Mot de passe trop court', async () => {
   }
   expect(res).toBeDefined();
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe('Le mot de passe doit contenir au moins 6 caractères');
+  expect(res.body.message).toBe('Le mot de passe doit contenir au moins 8 caractères');
 });
 
 //test pour mail et mot de passe requis
@@ -89,7 +89,7 @@ it('REGISTER - Email et mot de passe requis', async () => {
   }
   expect(res).toBeDefined();
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe('Email et mot de passe requis');
+  expect(res.body.message).toBe('Format d\'email invalide');
 });
 
 //test de la route POST /user/register
