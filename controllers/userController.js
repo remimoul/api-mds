@@ -48,6 +48,10 @@ exports.createAUser = async (req, res) => {
       return res.status(400).json({ message: 'Adresse email invalide' });
     }
 
+    if (req.body.password.length < 6) {
+      return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères' });
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
       lastName: req.body.lastName,

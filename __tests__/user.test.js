@@ -51,6 +51,28 @@ test('REGISTER - Email invalide', async () => {
     expect(res.body.message).toBe('Adresse email invalide');
 });
 
+//test pour mot de passe trop court
+test('REGISTER - Mot de passe trop court', async () => {
+    let res;
+    try {
+        res = await request(server).post('/user/register').send({
+        lastName: 'Doe',
+        firstName: 'John',
+        email: 'johndoe@test.com',
+        password: '123',
+        admin: 0,
+        company_name: 'orange',
+        role: 'Employé',
+        });
+    } catch (error) {
+        console.error("Error test : ",error);
+    } 
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe('Le mot de passe doit contenir au moins 6 caractères');
+}
+);
+
 //test pour mail et mot de passe requis
 test('REGISTER - Email et mot de passe requis', async () => {
     let res;
