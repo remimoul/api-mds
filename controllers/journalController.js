@@ -1,4 +1,5 @@
 const Journal = require('../models/journalModel');
+const { Op } = require('sequelize');
 
 exports.sendEmotion = async (req, res) => {
   try {
@@ -19,7 +20,26 @@ exports.sendEmotion = async (req, res) => {
 exports.getEmotion = async (req, res) => {
   try {
     const { user_id } = req.params;
-    const emotions = await Journal.findAll({ where: { user_id } });
+    const { date } = req.query; // Récupérer la date depuis les paramètres de requête
+    let whereCondition = { user_id };
+
+    if (date) {
+      const startDate = new Date(date);
+      startDate.setHours(0, 0, 0, 0); // Début de la journée
+
+      // Créez endDate en ajoutant un jour à startDate, puis soustrayez une milliseconde
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 1);
+      endDate.setMilliseconds(endDate.getMilliseconds() - 1); // Fin de la journée
+
+      console.log(`startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
+
+      whereCondition.createdAt = {
+        [Op.between]: [startDate, endDate],
+      };
+    }
+
+    const emotions = await Journal.findAll({ where: whereCondition });
     if (emotions.length === 0) {
       return res.status(404).json({ message: 'Aucune émotion trouvée pour cet utilisateur' });
     }
