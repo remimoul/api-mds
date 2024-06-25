@@ -4,7 +4,7 @@
   "description": "api-grineasy",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "start": "nodemon index.js",
     "format": "prettier --write ./controllers/* ./models/* ./routes/* ./__tests__/*"
   },

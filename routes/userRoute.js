@@ -7,7 +7,7 @@ router.route('/login').post(userControllers.userLogin);
 
 router.route('/register').post(userControllers.createAUser);
 
-router.route('/update/:id').put(jwtMiddleware.verifyToken,userControllers.updateUser);
+router.route('/update/:id').put(jwtMiddleware.verifyToken, userControllers.updateUser);
 
 router.route('/:user_id').put(userControllers.updateUser).delete(userControllers.deleteUser);
 

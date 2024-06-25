@@ -6,7 +6,6 @@ require('dotenv').config();
 
 exports.userLogin = async (req, res) => {
   try {
-    //const user = await User.findOne({ email: req.body.email });
     const user = await User.findOne({ where: { email: req.body.email } });
 
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
@@ -14,7 +13,7 @@ exports.userLogin = async (req, res) => {
       return;
     }
 
-    console.log('user', user);
+    //console.log('user', user);
 
     const userData = {
       id: user.id,
@@ -72,13 +71,12 @@ exports.createAUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    // Check if user exists
+    const existingUser = await User.findOne({ where: { id: req.params.id } });
+    if (!existingUser) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
+    }
 
-      // Check if user exists
-      const existingUser = await User.findOne({ where: { id: req.params.id } });
-      if (!existingUser) {
-        return res.status(404).json({ message: "L'utilisateur n'existe pas" });
-      }
-    
     const updates = {};
     //Si l'email est renseigné, on vérifie qu'il est valide
     if (req.body.email) {
@@ -111,7 +109,6 @@ exports.updateUser = async (req, res) => {
       return res.status(200).json({ message: `Utilisateur modifié : ${user[1].email}` });
     }
   } catch (error) {
-    
     return res.status(500).json({ message: 'Erreur serveur: ' + error });
   }
 };

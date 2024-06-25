@@ -1,4 +1,3 @@
-require('dotenv').config();
 const User = require('../models/userModel');
 const server = require('../index.js');
 const request = require('supertest');
@@ -16,7 +15,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await User.destroy({ where: { email: 'johndoe@test.fr' } }); // Supprime l'utilisateur à la fin des test
   await sequelize.close(); // Ferme la connexion à la base de données
-//ferme la connexion au serveur express
+  //ferme la connexion au serveur express
   await new Promise((resolve, reject) => {
     server.close((err) => {
       if (err) {
@@ -32,69 +31,66 @@ afterAll(async () => {
 
 //test pour mail invalide
 test('REGISTER - Email invalide', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/register').send({
-        lastName: 'Doe',
-        firstName: 'John',
-        email: 'johndoe@test',
-        password: 'Mydigitallife2021',
-        admin: 0,
-        company_name: 'orange',
-        role: 'Employé',
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe('Adresse email invalide');
+  let res;
+  try {
+    res = await request(server).post('/user/register').send({
+      lastName: 'Doe',
+      firstName: 'John',
+      email: 'johndoe@test',
+      password: 'Mydigitallife2021',
+      admin: 0,
+      company_name: 'orange',
+      role: 'Employé',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe('Adresse email invalide');
 });
 
 //test pour mot de passe trop court
 test('REGISTER - Mot de passe trop court', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/register').send({
-        lastName: 'Doe',
-        firstName: 'John',
-        email: 'johndoe@test.com',
-        password: '123',
-        admin: 0,
-        company_name: 'orange',
-        role: 'Employé',
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    } 
-    expect(res).toBeDefined();
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe('Le mot de passe doit contenir au moins 6 caractères');
-}
-);
+  let res;
+  try {
+    res = await request(server).post('/user/register').send({
+      lastName: 'Doe',
+      firstName: 'John',
+      email: 'johndoe@test.com',
+      password: '123',
+      admin: 0,
+      company_name: 'orange',
+      role: 'Employé',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe('Le mot de passe doit contenir au moins 6 caractères');
+});
 
 //test pour mail et mot de passe requis
 test('REGISTER - Email et mot de passe requis', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/register').send({
-        lastName: 'Doe',
-        firstName: 'John',
-        email: '',
-        password: '',
-        admin: 0,
-        company_name: 'orange',
-        role: 'Employé',
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe('Email et mot de passe requis');
-}
-);
-
+  let res;
+  try {
+    res = await request(server).post('/user/register').send({
+      lastName: 'Doe',
+      firstName: 'John',
+      email: '',
+      password: '',
+      admin: 0,
+      company_name: 'orange',
+      role: 'Employé',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe('Email et mot de passe requis');
+});
 
 //test de la route POST /user/register
 test('REGISTER format ok 😁​​', async () => {
@@ -110,7 +106,7 @@ test('REGISTER format ok 😁​​', async () => {
       role: 'Employé',
     });
   } catch (error) {
-    console.error("Error test : ",error);
+    console.error('Error test : ', error);
   }
   expect(res).toBeDefined();
   expect(res.status).toBe(201);
@@ -123,107 +119,98 @@ test('REGISTER format ok 😁​​', async () => {
   expect(res.body).toHaveProperty('role', 'Employé');
 });
 
-
 //test pour utilisateur existant
 test('REGISTER - Utilisateur existant', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/register').send({
-        lastName: 'Doe',
-        firstName: 'John',
-        email: 'johndoe@test.com',
-        password: 'Mydigitallife2021',
-        admin: 0,
-        company_name: 'orange',
-        role: 'Employé',
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe('Un utilisateur avec cette adresse e-mail existe déjà');
-}
-);
+  let res;
+  try {
+    res = await request(server).post('/user/register').send({
+      lastName: 'Doe',
+      firstName: 'John',
+      email: 'johndoe@test.com',
+      password: 'Mydigitallife2021',
+      admin: 0,
+      company_name: 'orange',
+      role: 'Employé',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe('Un utilisateur avec cette adresse e-mail existe déjà');
+});
 
 // Test pour un utilisateur inexistant
 test('LOGIN - Utilisateur inexistant', async () => {
-    let res;
-    try {
-      res = await request(server).post('/user/login').send({
-        email: 'nonexistent@test.com', // Assurez-vous que cet email n'existe pas dans votre base de données de test
-        password: 'password',
-      });
-    } catch (error) {
-      console.error("Error test : ", error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(401);
-    expect(res.body.message).toBe('Email ou mot de passe incorrect');
-  });
+  let res;
+  try {
+    res = await request(server).post('/user/login').send({
+      email: 'nonexistent@test.com', // Assurez-vous que cet email n'existe pas dans votre base de données de test
+      password: 'password',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(401);
+  expect(res.body.message).toBe('Email ou mot de passe incorrect');
+});
 
 // Test pour un mot de passe incorrect
 test('LOGIN - Mot de passe incorrect', async () => {
-    let res;
-    try {
-      res = await request(server).post('/user/login').send({
-        email: 'johndoe@test.com', // Assurez-vous que cet email existe dans votre base de données de test
-        password: 'WrongPassword2021',
-      });
-    } catch (error) {
-      console.error("Error test : ", error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(401);
-    expect(res.body.message).toBe('Email ou mot de passe incorrect');
-  });
+  let res;
+  try {
+    res = await request(server).post('/user/login').send({
+      email: 'johndoe@test.com', // Assurez-vous que cet email existe dans votre base de données de test
+      password: 'WrongPassword2021',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(401);
+  expect(res.body.message).toBe('Email ou mot de passe incorrect');
+});
 
 test('USER/LOGIN ​​', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/login').send({
-        email: 'johndoe@test.com',
-        password: 'Mydigitallife2021',
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    }   
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('token');
-}
-);
-
-
-
-
-
+  let res;
+  try {
+    res = await request(server).post('/user/login').send({
+      email: 'johndoe@test.com',
+      password: 'Mydigitallife2021',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty('token');
+});
 
 test('USER/UPDATE 😁​​', async () => {
-    let res;
-    try {
-        res = await request(server).post('/user/login').send({
-        email: 'johndoe@test.com',
-        password: 'Mydigitallife2021',
-        });
-        //console.log("Login Response:", res.body);
-    } catch (error) {
-        console.error("Error test : ",error);
-    }
-    expect(res.body).toHaveProperty('token');
-    expect(res.body).toHaveProperty('id');
-    const token = res.body.token;
-    const userId = res.body.id;
-    try {
-        res = await request(server).put(`/user/update/${userId}`).set('Authorization', token).send({
-        email: 'johndoe@test.fr',
-        password: 'Mydigitallife2024', 
-        });
-    } catch (error) {
-        console.error("Error test : ",error);
-    }
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    //expect(res.body).toHaveProperty('message', 'Utilisateur modifié avec succès');
-}
-);
+  let res;
+  try {
+    res = await request(server).post('/user/login').send({
+      email: 'johndoe@test.com',
+      password: 'Mydigitallife2021',
+    });
+    //console.log("Login Response:", res.body);
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res.body).toHaveProperty('token');
+  expect(res.body).toHaveProperty('id');
+  const token = res.body.token;
+  const userId = res.body.id;
+  try {
+    res = await request(server).put(`/user/update/${userId}`).set('Authorization', token).send({
+      email: 'johndoe@test.fr',
+      password: 'Mydigitallife2024',
+    });
+  } catch (error) {
+    console.error('Error test : ', error);
+  }
+  expect(res).toBeDefined();
+  expect(res.status).toBe(200);
+  //expect(res.body).toHaveProperty('message', 'Utilisateur modifié avec succès');
+});
