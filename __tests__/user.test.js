@@ -30,7 +30,7 @@ afterAll(async () => {
 });
 
 //test pour mail invalide
-test('REGISTER - Email invalide', async () => {
+it('REGISTER - Email invalide', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -51,7 +51,7 @@ test('REGISTER - Email invalide', async () => {
 });
 
 //test pour mot de passe trop court
-test('REGISTER - Mot de passe trop court', async () => {
+it('REGISTER - Mot de passe trop court', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -72,7 +72,7 @@ test('REGISTER - Mot de passe trop court', async () => {
 });
 
 //test pour mail et mot de passe requis
-test('REGISTER - Email et mot de passe requis', async () => {
+it('REGISTER - Email et mot de passe requis', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -93,7 +93,7 @@ test('REGISTER - Email et mot de passe requis', async () => {
 });
 
 //test de la route POST /user/register
-test('REGISTER format ok 😁​​', async () => {
+it('REGISTER format ok 😁​​', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -120,7 +120,7 @@ test('REGISTER format ok 😁​​', async () => {
 });
 
 //test pour utilisateur existant
-test('REGISTER - Utilisateur existant', async () => {
+it('REGISTER - Utilisateur existant', async () => {
   let res;
   try {
     res = await request(server).post('/user/register').send({
@@ -141,7 +141,7 @@ test('REGISTER - Utilisateur existant', async () => {
 });
 
 // Test pour un utilisateur inexistant
-test('LOGIN - Utilisateur inexistant', async () => {
+it('LOGIN - Utilisateur inexistant', async () => {
   let res;
   try {
     res = await request(server).post('/user/login').send({
@@ -157,7 +157,7 @@ test('LOGIN - Utilisateur inexistant', async () => {
 });
 
 // Test pour un mot de passe incorrect
-test('LOGIN - Mot de passe incorrect', async () => {
+it('LOGIN - Mot de passe incorrect', async () => {
   let res;
   try {
     res = await request(server).post('/user/login').send({
@@ -172,7 +172,7 @@ test('LOGIN - Mot de passe incorrect', async () => {
   expect(res.body.message).toBe('Email ou mot de passe incorrect');
 });
 
-test('USER/LOGIN ​​', async () => {
+it('USER/LOGIN ​​', async () => {
   let res;
   try {
     res = await request(server).post('/user/login').send({
@@ -187,7 +187,7 @@ test('USER/LOGIN ​​', async () => {
   expect(res.body).toHaveProperty('token');
 });
 
-test('USER/UPDATE 😁​​', async () => {
+it('USER/UPDATE 😁​​', async () => {
   let res;
   try {
     res = await request(server).post('/user/login').send({
