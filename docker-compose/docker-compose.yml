@@ -3,19 +3,46 @@ version: '3.1'
 services:
   db:
     container_name: grineasy-mysql
-    image: mysql
+    image: mysql:latest
     restart: always
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${DB_LOGIN}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - data-sql-grineasy:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
       - 8080:80
+    depends_on:
+      - db
     environment:
       PMA_HOST: db
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${DB_LOGIN}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+
+  api:
+    container_name: grineasy-api
+    image: node:latest
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ../:/usr/src/app
+    working_dir: /usr/src/app
+    command: /bin/sh -c "npm install && npm rebuild bcrypt --build-from-source && npx nodemon index.js"
+    environment:
+      DB_HOST: host.docker.internal
+      JWT_KEY: ${JWT_KEY}
+      STREAM_CHAT_API_KEY: ${STREAM_CHAT_API_KEY}
+      STREAM_CHAT_API_SECRET: ${STREAM_CHAT_API_SECRET}
+    depends_on:
+      - db
+
+volumes:
+  data-sql-grineasy:
+    driver: local
