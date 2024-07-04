@@ -122,6 +122,10 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
+    const existingUser = await User.findOne({ where: { id: req.params.id } });
+    if (!existingUser) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
+    }
     const user = await User.destroy({ where: { email: req.body.email } });
     if (user) {
       res.status(200).json({ message: `Utilisateur supprimé : ${user.email}` });

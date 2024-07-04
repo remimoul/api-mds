@@ -119,6 +119,36 @@
 
 /**
  * @swagger
+ * /user/{id_user}:
+ *   delete:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Supprimer un utilisateur
+ *     description: ✔️ delete user
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Token d'authentification
+ *       - in: body
+ *         name: user
+ *         description: Delete user account
+ *         schema:
+ *           type: object
+ *           required:
+ *             - email
+ *           properties:
+ *             email:
+ *               type: string
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ */
+
+/**
+ * @swagger
  * /message/send:
  *   post:
  *     tags:
