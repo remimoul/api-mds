@@ -1,4 +1,5 @@
 const Journal = require('../models/journalModel');
+const { Op } = require('sequelize');
 
 exports.sendEmotion = async (req, res) => {
   try {
@@ -8,7 +9,8 @@ exports.sendEmotion = async (req, res) => {
       emotion,
       thoughts,
     });
-    res.status(201).json(newEmotion);
+
+    res.status(201).json({ data: newEmotion, message: 'Emotion envoyée avec succès' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Une erreur s'est produite lors de l'envoi de l'émotion" });
@@ -18,11 +20,30 @@ exports.sendEmotion = async (req, res) => {
 exports.getEmotion = async (req, res) => {
   try {
     const { user_id } = req.params;
-    const emotions = await Journal.findAll({ where: { user_id } });
-    if (emotions.lenght === 0) {
+    const { date } = req.query; // Récupérer la date depuis les paramètres de requête
+    let whereCondition = { user_id };
+
+    if (date) {
+      const startDate = new Date(date);
+      startDate.setHours(0, 0, 0, 0); // Début de la journée
+
+      // Créez endDate en ajoutant un jour à startDate, puis soustrayez une milliseconde
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 1);
+      endDate.setMilliseconds(endDate.getMilliseconds() - 1); // Fin de la journée
+
+      console.log(`startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
+
+      whereCondition.createdAt = {
+        [Op.between]: [startDate, endDate],
+      };
+    }
+
+    const emotions = await Journal.findAll({ where: whereCondition });
+    if (emotions.length === 0) {
       return res.status(404).json({ message: 'Aucune émotion trouvée pour cet utilisateur' });
     }
-    res.status(200).json(emotions);
+    res.status(201).json({ data: emotions, message: 'Emotions récupérées avec succès' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Une erreur s'est produite lors de la récupération des émotions" });

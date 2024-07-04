@@ -7,6 +7,7 @@ require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
@@ -56,3 +57,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.listen(port, '0.0.0.0',() => {
   console.log(`app listening on port ${port}`);
 });
+
+module.exports = server;
