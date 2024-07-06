@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes,Model } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {

@@ -3,7 +3,6 @@ const User = require('../models/userModel');
 require('dotenv').config();
 
 class JwtMiddleware {
-
  async verifyToken(req, res, next) {
   try {
     let token = req.headers['authorization'];
@@ -18,13 +17,11 @@ class JwtMiddleware {
           }
         });
       });
-
       // Récupérer l'utilisateur à partir de l'ID décodé
       const user = await User.findOne({ where: { id: payload.id } });
       if (!user) {
         return res.status(404).json({ message: 'Utilisateur non trouvé' });
       }
-
       req.user = user;
       next();
     } else {
