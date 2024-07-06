@@ -1,7 +1,9 @@
 const Journal = require('../models/journalModel');
 const { Op } = require('sequelize');
 
-exports.sendEmotion = async (req, res) => {
+class journalController {
+
+async sendEmotion(req, res){
   try {
     const { user_id, emotion, thoughts } = req.body;
     const newEmotion = await Journal.create({
@@ -17,7 +19,7 @@ exports.sendEmotion = async (req, res) => {
   }
 };
 
-exports.getEmotion = async (req, res) => {
+async getEmotion(req, res){
   try {
     const { user_id } = req.params;
     const { date } = req.query; // Récupérer la date depuis les paramètres de requête
@@ -51,7 +53,7 @@ exports.getEmotion = async (req, res) => {
 };
 
 // Mettre à jour une émotion
-exports.updateEmotion = async (req, res) => {
+  async updateEmotion(req, res){
   try {
     const { user_id, emotion_id } = req.params;
     const { emotion, thoughts } = req.body;
@@ -67,7 +69,7 @@ exports.updateEmotion = async (req, res) => {
 };
 
 // Supprimer une émotion
-exports.deleteEmotion = async (req, res) => {
+async deleteEmotion(req, res) {
   try {
     const { user_id, emotion_id } = req.params;
     const deletedEmotion = await Journal.destroy({ where: { id: emotion_id, user_id } });
@@ -80,3 +82,6 @@ exports.deleteEmotion = async (req, res) => {
     res.status(500).json({ message: "Une erreur s'est produite lors de la suppression de l'émotion" });
   }
 };
+}
+
+module.exports = new journalController();

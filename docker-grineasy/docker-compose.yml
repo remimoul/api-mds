@@ -1,4 +1,8 @@
-version: '3.1'
+version: '3.8'
+
+networks:
+  grineasy-network:
+    name: grineasy-api
 
 services:
   db:
@@ -33,8 +37,9 @@ services:
       - ${PORT}:${PORT}
     volumes:
       - ../:/usr/src/app
+      - /usr/src/app/node_modules
     working_dir: /usr/src/app
-    command: /bin/sh -c "npm install && npm rebuild bcrypt --build-from-source && npx nodemon index.js"
+    command: /bin/sh -c "npm install && npx nodemon index.js"
     environment:
       DB_HOST: host.docker.internal
       JWT_KEY: ${JWT_KEY}

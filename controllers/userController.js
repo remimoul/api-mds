@@ -4,7 +4,10 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 require('dotenv').config();
 
-exports.userLogin = async (req, res) => {
+
+class UserController {
+
+async userLogin(req, res) {
   try {
     if (!validator.isEmail(req.body.email)) {
       return res.status(400).json({ message: "Format d'email invalide" });
@@ -15,8 +18,6 @@ exports.userLogin = async (req, res) => {
       res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       return;
     }
-
-    //console.log('user', user);
 
     const userData = {
       id: user.id,
@@ -34,7 +35,7 @@ exports.userLogin = async (req, res) => {
   }
 };
 
-exports.createAUser = async (req, res) => {
+async createAUser(req, res) {
   try {
     if (!validator.isEmail(req.body.email)) {
       return res.status(400).json({ message: "Format d'email invalide" });
@@ -76,7 +77,7 @@ exports.createAUser = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+async updateUser(req, res) {
   try {
     // Check if user exists
     const existingUser = await User.findOne({ where: { id: req.params.id } });
@@ -120,7 +121,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+async deleteUser(req, res){
   try {
     const existingUser = await User.findOne({ where: { id: req.params.id } });
     if (!existingUser) {
@@ -139,3 +140,7 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
+
+}
+
+module.exports = new UserController();

@@ -5,13 +5,15 @@ const Sequelize = require('sequelize');
 const Message = require('../models/messagesModel');
 const userConversation = require('../models/userConversationModel');
 const Conversation = require('../models/conversationModel');
-const User = require('../models/userConversationModel');
+const User = require('../models/userModel');
 
 async function saveMessage(message) {
   await Message.create(message);
 }
 
-exports.sendMessage = async (req, res) => {
+class MessageController {
+
+async sendMessage(req, res) {
   const { content, user_id, conversation_id } = req.body;
 
   // Vérifiez que la conversation existe
@@ -42,7 +44,7 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
-exports.getConversation = async (req, res) => {
+async getConversation(req, res) {
   try {
     // Validation de conversation_id
     if (!req.params.conversation_id) {
@@ -75,7 +77,7 @@ exports.getConversation = async (req, res) => {
   }
 };
 
-exports.createConversation = async (req, res) => {
+async createConversation(req, res) {
   try {
     // Vérification du rôle de l'utilisateur
     if (req.user.role !== 'Happiness Officer') {
@@ -92,7 +94,7 @@ exports.createConversation = async (req, res) => {
   }
 };
 
-exports.deleteConversation = async (req, res) => {
+ async deleteConversation(req, res) {
   try {
     // Vérification du rôle de l'utilisateur
     if (req.user.role !== 'Happiness Officer') {
@@ -131,3 +133,7 @@ exports.deleteConversation = async (req, res) => {
     res.status(500).json({ error: 'Erreur de suppression de la conversation' });
   }
 };
+
+}
+
+module.exports = new MessageController();

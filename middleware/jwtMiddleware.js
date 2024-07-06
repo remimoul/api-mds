@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 require('dotenv').config();
 
-exports.verifyToken = async (req, res, next) => {
+class JwtMiddleware {
+
+ async verifyToken(req, res, next) {
   try {
     let token = req.headers['authorization'];
     //console.log('token', token);
@@ -33,3 +35,7 @@ exports.verifyToken = async (req, res, next) => {
     res.status(403).json({ message: 'Accès interdit: token invalide' });
   }
 };
+
+}
+
+module.exports = new JwtMiddleware();
