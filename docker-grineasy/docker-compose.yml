@@ -1,9 +1,5 @@
 version: '3.8'
 
-networks:
-  grineasy-network:
-    name: grineasy-api
-
 services:
   db:
     container_name: grineasy-mysql
@@ -18,13 +14,14 @@ services:
       - data-sql-grineasy:/var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    build: .
     restart: always
     ports:
       - 8080:80
     depends_on:
       - db
     environment:
+      DB_HOST: ${DB_HOST}
       PMA_HOST: db
       MYSQL_USER: ${DB_LOGIN}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
