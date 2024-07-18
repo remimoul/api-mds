@@ -1,3 +1,5 @@
+const fs = require('fs');
+const https = require('https');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3005;
@@ -6,6 +8,15 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+
+// Charger les certificats SSL
+const privateKey = fs.readFileSync('private.key', 'utf8');
+const certificate = fs.readFileSync('certificate.crt', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate
+};
 
 
 const swaggerOptions = {
@@ -54,8 +65,17 @@ app.use('/journal', journalRoute);
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+// Créer un serveur HTTPS
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(443, () => {
+  console.log('HTTPS Server running on port 443');
+});
+
 const server = app.listen(port, '0.0.0.0',() => {
   console.log(`app listening on port ${port}`);
 });
 
 module.exports = server;
+
+
+

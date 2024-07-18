@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --runInBand --verbose",
     "start": "nodemon index.js",
+    "start-https": "node index.js",
     "format": "prettier --write ./controllers/* ./models/* ./routes/* ./__tests__/*"
   },
   "author": "",

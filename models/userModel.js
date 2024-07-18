@@ -6,7 +6,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, proce
   dialect: 'mysql',
 });
 
-class User extends Model {}
+class User extends Model {
+  // Contre les attaques XSS, ne pas envoyer le mot de passe dans les réponses
+  toJSON() {
+    const values = { ...this.get() };
+    delete values.password;
+    return values;
+  }
+}
 
 User.init(
   {
