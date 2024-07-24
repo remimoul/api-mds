@@ -1,5 +1,8 @@
 version: '3.8'
 
+networks:
+  grineasy-network: {}
+
 services:
   db:
     container_name: grineasy-mysql
@@ -12,6 +15,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - data-sql-grineasy:/var/lib/mysql
+    networks:
+      - grineasy-network
 
   phpmyadmin:
     build: .
@@ -25,6 +30,8 @@ services:
       PMA_HOST: db
       MYSQL_USER: ${DB_LOGIN}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - grineasy-network
 
   api:
     container_name: grineasy-api
@@ -34,16 +41,18 @@ services:
       - ${PORT}:${PORT}
     volumes:
       - ../:/usr/src/app
-      - /usr/src/app/node_modules
+      # - /usr/src/app/node_modules
     working_dir: /usr/src/app
     command: /bin/sh -c "npm install && npx nodemon index.js"
     environment:
-      DB_HOST: host.docker.internal
+      DB_HOST: db
       JWT_KEY: ${JWT_KEY}
       STREAM_CHAT_API_KEY: ${STREAM_CHAT_API_KEY}
       STREAM_CHAT_API_SECRET: ${STREAM_CHAT_API_SECRET}
     depends_on:
       - db
+    networks:
+      - grineasy-network
 
 volumes:
   data-sql-grineasy:
