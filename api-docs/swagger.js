@@ -79,7 +79,7 @@
 
 /**
  * @swagger
- * /user/{id_user}:
+ * /user/update/{id_user}:
  *   put:
  *     tags:
  *       - Utilisateur
@@ -119,6 +119,33 @@
  *       '200':
  *         description: A successful response
  */
+
+/**
+ * @swagger
+ * /user/delete/{id_user}:
+ *   delete:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Supprimer un utilisateur
+ *     description: ✔️ delete user
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Token d'authentification
+ *       - in: path
+ *         name: id_user
+ *         description: ID of the user to update
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ */
+
 
 /**
  * @swagger
