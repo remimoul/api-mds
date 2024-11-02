@@ -1,78 +1,80 @@
 /**
- *  _    _ _____ _____
- * | |  | |_   _|  __ \
- * | |  | | | | | |  | |
- * | |  | | | | | |  | |
- * | |__| |_| |_| |__| |
- *  \____/|_____|_____/
- *
- */
-
-/**
  * @swagger
  * /user/login:
- *  post:
- *    tags:
- *      - Utilisateur
- *    summary: Connecter un utilisateur
- *    description: ✔️ Login a user
- *    parameters:
- *      - in: body
- *        name: user
- *        description: The user to login
- *        schema:
- *          type: object
- *          required:
- *            - email
- *            - password
- *          properties:
- *            email:
- *              type: string
- *            password:
- *              type: string
- *    responses:
- *      '200':
- *        description: A successful response
+ *   post:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Connecter un utilisateur
+ *     description: ✔️ Login a user
+ *     parameters:
+ *       - in: body
+ *         name: user
+ *         description: The user to login
+ *         schema:
+ *           type: object
+ *           required:
+ *             - email
+ *             - password
+ *           properties:
+ *             email:
+ *               type: string
+ *               default: 'johndoe@gmail.com'
+ *             password:
+ *               type: string
+ *               default: 'password'    
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *       '401':
+ *         description: Unauthorized
  */
 
 /**
  * @swagger
  * /user/register:
- *  post:
- *    tags:
- *      - Utilisateur
- *    summary: Enregistrer un nouvel utilisateur
- *    description: ✔️ Register a new user
- *    parameters:
- *      - in: body
- *        name: user
- *        description: The user to login
- *        schema:
- *          type: object
- *          required:
- *            - email
- *            - password
- *            - role
- *          properties:
- *            firstName:
- *              type: string
- *            lastName:
- *              type: string
- *            email:
- *              type: string
- *            password:
- *              type: string
- *            admin:
- *             type: integer
- *            role:
- *              type: string
- *              enum: ['Employé', 'Entreprise', 'Happiness Officer']
- *            company_name:
- *              type: string
- *
- *    responses:
- *      '200':
- *        description: A successful response
+ *   post:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Enregistrer un nouvel utilisateur
+ *     description: ✔️ Register a new user
+ *     parameters:
+ *       - in: body
+ *         name: user
+ *         description: The user to login
+ *         schema:
+ *           type: object
+ *           required:
+ *             - email
+ *             - password
+ *             - role
+ *           properties:
+ *             firstName:
+ *               type: string
+ *               default: 'John'
+ *             lastName:
+ *               type: string
+ *               default: 'Doe'
+ *             email:
+ *               type: string
+ *               default: 'johndoe@gmail.com'
+ *             password:
+ *               type: string
+ *               default: 'password'
+ *             admin:
+ *               type: integer
+ *               default: 0
+ *             role:
+ *               type: enum
+ *               enum: ['Employé', 'Entreprise', 'Happiness Officer']
+ *               default: 'Employé'
+ *             company_name:
+ *               type: string
+ *               default: 'Microsoft'
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *       '400':
+ *         description: Bad request
  */
 
 /**
@@ -94,7 +96,8 @@
  *         name: id_user
  *         description: ID of the user to update
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *       - in: body
  *         name: user
  *         description: User data to update
@@ -128,7 +131,8 @@
  *       - in: header
  *         name: Authorization
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *         description: The authorization token
  *       - in: body
  *         name: project
@@ -171,7 +175,8 @@
  *       - in: header
  *         name: Authorization
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *         description: The authorization token
  *       - in: path
  *         name: projet_id
@@ -209,7 +214,8 @@
  *       - in: header
  *         name: Authorization
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *         description: The authorization token
  *       - in: path
  *         name: conversation_id
@@ -274,7 +280,7 @@
  *             emotion:
  *               type: string
  *             date:
- *               type: date
+ *               type: string
  *             thoughts:
  *               type: string
  *     responses:
@@ -284,7 +290,7 @@
  *           type: object
  *           properties:
  *             user_id:
- *               type: string
+ *               type: integer
  *             emotion:
  *               type: string
  *             date:
@@ -296,7 +302,7 @@
 /**
  * @swagger
  * /journal/get/{user_id}:
- *   put:
+ *   get:
  *     tags:
  *       - Tableau de bord Emotionnel
  *     summary: Récupérer la liste des émotions
@@ -304,7 +310,8 @@
  *       - in: header
  *         name: Authorization
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *         description: The authorization token
  *       - in: path
  *         name: user_id
@@ -328,7 +335,8 @@
  *       - in: header
  *         name: Authorization
  *         required: true
- *         type: string
+ *         schema:
+ *           type: string
  *         description: The authorization token
  *       - in: path
  *         name: user_id
@@ -336,12 +344,12 @@
  *         schema:
  *           type: string
  *         description: L'ID de l'utilisateur pour lequel on veut mettre à jour l'émotion
- *      - in: path
- *        name: emotion_id
- *        required: true
- *        schema:
- *        type: string
- *        description: L'ID de l'émotion à mettre à jour
+ *       - in: path
+ *         name: emotion_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: L'ID de l'émotion à mettre à jour
  *     responses:
  *       200:
  *         description: L'émotion a été mise à jour avec succès
@@ -359,16 +367,31 @@
  *     tags:
  *       - Tableau de bord Emotionnel
  *     summary: Supprimer une émotion
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The authorization token
+ *       - in: path
+ *         name: user_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: L'ID de l'utilisateur pour lequel on veut supprimer l'émotion
+ *       - in: path
+ *         name: emotion_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: L'ID de l'émotion à supprimer
  *     responses:
  *       200:
- *         description: A list of expro
+ *         description: L'émotion a été supprimée avec succès
  *         schema:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *               name:
- *                 type: string
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
  */
