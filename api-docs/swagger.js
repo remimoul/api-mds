@@ -1,36 +1,5 @@
 /**
  * @swagger
- * /user/login:
- *   post:
- *     tags:
- *       - Utilisateur
- *     summary: Connecter un utilisateur
- *     description: ✔️ Login a user
- *     parameters:
- *       - in: body
- *         name: user
- *         description: The user to login
- *         schema:
- *           type: object
- *           required:
- *             - email
- *             - password
- *           properties:
- *             email:
- *               type: string
- *               default: 'johndoe@gmail.com'
- *             password:
- *               type: string
- *               default: 'password'    
- *     responses:
- *       '200':
- *         description: A successful response
- *       '401':
- *         description: Unauthorized
- */
-
-/**
- * @swagger
  * /user/register:
  *   post:
  *     tags:
@@ -76,6 +45,64 @@
  *       '400':
  *         description: Bad request
  */
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Connecter un utilisateur
+ *     description: ✔️ Login a user
+ *     parameters:
+ *       - in: body
+ *         name: user
+ *         description: The user to login
+ *         schema:
+ *           type: object
+ *           required:
+ *             - email
+ *             - password
+ *           properties:
+ *             email:
+ *               type: string
+ *               default: 'johndoe@gmail.com'
+ *             password:
+ *               type: string
+ *               default: 'password'    
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *       '401':
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /user/get/{id_user}:
+ *   get:
+ *     tags:
+ *       - Utilisateur
+ *     summary: Récupérer un utilisateur
+ *     description: ✔️ get user
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Token d'authentification
+ *       - in: path
+ *         name: id_user
+ *         description: ID of the user to update
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ */
+
 
 /**
  * @swagger
