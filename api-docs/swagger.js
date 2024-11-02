@@ -16,24 +16,27 @@
  *      - Utilisateur
  *    summary: Connecter un utilisateur
  *    description: ✔️ Login a user
- *    requestBody:
- *      description: The user to login
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            required:
- *              - email
- *              - password
- *            properties:
- *              email:
- *                type: string
- *              password:
- *                type: string
+ *    parameters:
+ *      - in: body
+ *        name: user
+ *        description: The user to login
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *            - password
+ *          properties:
+ *            email:
+ *              type: string
+ *              default: 'johndoe@gmail.com'  
+ *            password:
+ *              type: string
+ *              default: 'password'
  *    responses:
  *      '200':
  *        description: A successful response
+ *      '401':
+ *       description: Unauthorized
  */
 
 /**
@@ -44,36 +47,45 @@
  *      - Utilisateur
  *    summary: Enregistrer un nouvel utilisateur
  *    description: ✔️ Register a new user
- *    requestBody:
- *      description: The user to register
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            required:
- *              - email
- *              - password
- *              - role
- *            properties:
+ *    parameters:
+ *      - in: body
+ *        name: user
+ *        description: The user to create
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *            - password
+ *            - role
+ *          properties:
  *              firstName:
  *                type: string
+ *                default: 'John'
  *              lastName:
  *                type: string
+ *                default: 'Doe'
  *              email:
  *                type: string
+ *                default: 'johndoe@gmail.com'
  *              password:
  *                type: string
+ *                default: 'password'
  *              admin:
  *                type: integer
+ *                default: 0
  *              role:
  *                type: string
- *                enum: ['Employé', 'Entreprise', 'Happiness Officer']
+ *                default: 'Employé'
  *              company_name:
  *                type: string
+ *                default: 'Microsoft'
  *    responses:
- *      '200':
+ *      '201':
  *        description: A successful response
+ *      '400':
+ *       description: Bad request - missing parameters
+ *      '500':
+ *        description: Internal Server Error - An unexpected error occurred
  */
 
 /**
@@ -95,27 +107,24 @@
  *         name: id_user
  *         description: ID of the user to update
  *         required: true
+ *         type: string
+ *       - in: body
+ *         name: user
+ *         description: User data to update
  *         schema:
- *           type: string
- *     requestBody:
- *       description: User data to update
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               firstName:
- *                 type: string
- *               lastName:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
+ *           type: object
+ *           required:
+ *             - email
+ *             - password
+ *           properties:
+ *             firstName:
+ *               type: string
+ *             lastName:
+ *               type: string
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
  *     responses:
  *       '200':
  *         description: A successful response

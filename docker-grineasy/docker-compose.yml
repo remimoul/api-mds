@@ -41,7 +41,7 @@ services:
       - ${PORT}:${PORT}
     volumes:
       - ../:/usr/src/app
-      # - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
     working_dir: /usr/src/app
     command: /bin/sh -c "npm install && npx nodemon index.js"
     environment:
