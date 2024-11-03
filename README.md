@@ -2,8 +2,6 @@
 
 ![Static Badge](https://img.shields.io/badge/MDS_PROJET-v.1.0.0-red)
 ![Static Badge](https://img.shields.io/badge/Group-Amethyste-884DA7)
-![Static Badge](https://img.shields.io/badge/REACT-blue?logo=react)
-![Static Badge](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss)
 
 ## Description 📖​
 
