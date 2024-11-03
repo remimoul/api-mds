@@ -119,23 +119,28 @@ class UserController {
     }
   }
 
-  async deleteUser(req, res) {
-    try {
-      const existingUser = await User.findOne({ where: { id: req.params.id } });
-      if (!existingUser) {
-        return res.status(404).json({ message: "L'utilisateur n'existe pas" });
-      }
-      const user = await User.destroy({ where: { email: req.body.email } });
-      if (user) {
-        res.status(200).json({ message: `Utilisateur supprimé : ${user.email}` });
-      } else {
-        res.status(404).json({ message: "L'utilisateur n'existe pas" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Une erreur s'est produite lors de la suppression de l'utilisateur",
-      });
+exports.getUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "L'utilisateur n'existe pas" });
+    }
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur serveur: ' + error });
+  }
+}
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.destroy({ where: { id: req.params.id } });
+    if (user) {
+      res.status(200).json({ message: `Utilisateur supprimé` });
+    } else {
+      res.status(404).json({ message: "L'utilisateur n'existe pas" });
     }
   }
 }
