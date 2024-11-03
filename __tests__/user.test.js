@@ -1,7 +1,11 @@
 const User = require('../models/userModel');
 const server = require('../index.js');
 const request = require('supertest');
-const sequelize = require('../database.js');
+const { Sequelize} = require('sequelize');
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
+});
 
 beforeAll(async () => {
   try {
