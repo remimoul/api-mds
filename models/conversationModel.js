@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
@@ -6,8 +6,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, proce
   dialect: 'mysql',
 });
 
-const Conversation = sequelize.define(
-  'Conversation',
+class Conversation extends Model {}
+
+Conversation.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -17,6 +18,7 @@ const Conversation = sequelize.define(
     },
   },
   {
+    sequelize,
     timestamps: true,
     tableName: 'conversations',
   },

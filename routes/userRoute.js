@@ -4,7 +4,6 @@ const userControllers = require('../controllers/userController');
 const jwtMiddleware = require('../middleware/jwtMiddleware');
 
 router.route('/login').post(userControllers.userLogin);
-
 router.route('/register').post(userControllers.createAUser);
 
 router.route('/get/:id').get(jwtMiddleware.verifyToken, userControllers.getUser);

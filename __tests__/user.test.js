@@ -161,7 +161,7 @@ it('LOGIN - Mot de passe incorrect', async () => {
   let res;
   try {
     res = await request(server).post('/user/login').send({
-      email: 'johndoe@test.com', // Assurez-vous que cet email existe dans votre base de données de test
+      email: 'johndoe@test.com', 
       password: 'WrongPassword2021',
     });
   } catch (error) {

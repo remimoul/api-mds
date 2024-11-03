@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const User = require('./userModel');
 require('dotenv').config();
 
@@ -7,8 +7,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, proce
   dialect: 'mysql',
 });
 
-const Journal = sequelize.define(
-  'Journal',
+class Journal extends Model {}
+
+Journal.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -31,6 +32,7 @@ const Journal = sequelize.define(
     },
   },
   {
+    sequelize,
     timestamps: true,
     tableName: 'journals',
   },

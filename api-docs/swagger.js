@@ -164,6 +164,7 @@
  *         description: Token d'authentification
  *       - in: path
  *         name: id_user
+
  *         description: ID of the user to update
  *         required: true
  *         schema:
@@ -172,7 +173,6 @@
  *       '200':
  *         description: A successful response
  */
-
 
 /**
  * @swagger
@@ -192,30 +192,40 @@
  *         name: project
  *         description: The project to add
  *         schema:
- *           type: object
- *           required:
- *             - content
- *             - conversation_id
- *             - user_id
- *           properties:
- *             content:
- *               type: string
- *             conversation_id:
- *               type: integer
- *             user_id:
- *               type: integer
+ *           type: string
+ *         description: The authorization token
+ *     requestBody:
+ *       description: The message to send
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - content
+ *               - conversation_id
+ *               - user_id
+ *             properties:
+ *               content:
+ *                 type: string
+ *               conversation_id:
+ *                 type: integer
+ *               user_id:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Message envoyé avec succès
- *         schema:
- *           type: object
- *           properties:
- *             content:
- *               type: string
- *             conversation_id:
- *               type: integer
- *             user_id:
- *               type: integer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 content:
+ *                   type: string
+ *                 conversation_id:
+ *                   type: integer
+ *                 user_id:
+ *                   type: integer
  */
 
 /**
@@ -238,23 +248,38 @@
  *         schema:
  *           type: string
  *         description: The id of the project to update
- *       - in: body
- *         name: project
- *         description: Seulement un happiness officer peut créer une conversation
+ *     requestBody:
+ *       description: Seulement un happiness officer peut créer une conversation
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
+ *               link:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Conversation créée avec succès
- *         schema:
- *           type: object
- *           properties:
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             imageUrl:
- *               type: string
- *             link:
- *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 imageUrl:
+ *                   type: string
+ *                 link:
+ *                   type: string
  */
 
 /**
@@ -280,13 +305,15 @@
  *     responses:
  *       200:
  *         description: Conversation supprimée avec succès
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: string
- *             name:
- *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
  */
 
 /**
@@ -298,16 +325,18 @@
  *     summary: Afficher tous les messages d'une conversation
  *     responses:
  *       200:
- *         description: Recupérer avec succès tous les messages d'une conversation
- *         schema:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *               name:
- *                 type: string
+ *         description: Récupérer avec succès tous les messages d'une conversation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
  */
 
 /**
@@ -316,11 +345,58 @@
  *   post:
  *     tags:
  *       - Tableau de bord Emotionnel
- *     summary: Ajouter une emotion dans le journal
+ *     summary: Ajouter une émotion dans le journal
+ *     requestBody:
+ *       description: The emotion to add
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user_id
+ *               - emotion
+ *               - date
+ *               - thoughts
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *               emotion:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               thoughts:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Ajout de l'émotion dans le journal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user_id:
+ *                   type: integer
+ *                 emotion:
+ *                   type: string
+ *                 date:
+ *                   type: string
+ *                 thoughts:
+ *                   type: string
+ */
+
+/**
+ * @swagger
+ * /journal/get/{user_id}:
+ *   get:
+ *     tags:
+ *       - Tableau de bord Emotionnel
+ *     summary: Récupérer la liste des émotions
  *     parameters:
- *       - in: body
- *         name: project
- *         description: The project to add
+ *       - in: header
+ *         name: Authorization
+ *         required: true
  *         schema:
  *           type: object
  *           required:
