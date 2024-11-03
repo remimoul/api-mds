@@ -1,0 +1,36 @@
+networks:
+  grineasy-network: {}
+
+services:
+  db:
+    container_name: grineasy-mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_LOGIN}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - data-sql-grineasy:/var/lib/mysql
+    networks:
+      - grineasy-network
+
+  phpmyadmin:
+    build: .
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      PMA_HOST: db
+      MYSQL_USER: ${DB_LOGIN}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - grineasy-network
+
+volumes:
+  data-sql-grineasy:
+    driver: local
