@@ -59,6 +59,10 @@ Si vous prévoyez de laisser le .env à la racine, ce que je recommande, car cel
 docker-compose --env-file ../.env up -d
 ```
 
+## Utilisation de l'API
+
+http://localhost:3000/api-docs
+
 ## Bibliothèques utilisées 📚
 
 Ce projet utilise les bibliothèques suivantes :
